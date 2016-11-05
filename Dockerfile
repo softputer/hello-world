@@ -1,8 +1,11 @@
-FROM ubuntu:trusty
-MAINTAINER Jayson yjge@qingyuanos.com
+FROM alpine:3.4
+MAINTAINER JaysonGe <gyj3023@foxmail.com>
 
-RUN apt-get update && \
-    apt-get install -y python-pip
+RUN apk add --update \
+    python \
+    python-dev \
+    py-pip \
+  && rm -rf /var/cache/apk/*
 
 RUN pip install flake8
 

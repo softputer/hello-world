@@ -4,14 +4,14 @@ import socket
 
 class WebRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_GET(self):
-        if self.path != "/qingyuanos.png":
+        if self.path != "/qingyuanos.jpg":
             hostname = socket.gethostname()
             message_parts = [
                 "<html>",
                 "<head><title>Hello World</title></head>",
                 "<body style=\"text-align:center;\">",
-                "<p><img src='qingyuanos.png' /></p>",
-                "<h3>Hello QingYuanOS!</h3><br />",
+                "<p><img src='qingyuanos.jpg' /></p>",
+                "<h3>Hello XiaoYuan!</h3><br />",
                 "<p>My hostname is <b>" + hostname + "</b></p>",
                 "</body>",
                 "<html>"
@@ -21,3 +21,15 @@ class WebRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             self.send_response(200)
             self.end_headers()
             self.wfile.write(message)
+        else:
+            f = open(os.curdir + os.sep + self.path)
+            self.send_response(200)
+            self.send_header('Content-type', 'image/jpg')
+            self.end_headers()
+            self.wfile.write(f.read())
+            f.close()
+
+if __name__ == '__main__':
+    print "Server started, Listening on port 80"
+    server = BaseHTTPServer.HTTPServer(('0.0.0.0', 80), WebRequestHandler)
+    server.serve_forever()
